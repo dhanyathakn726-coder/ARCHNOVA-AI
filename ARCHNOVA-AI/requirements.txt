@@ -1,0 +1,9 @@
+﻿fastapi
+uvicorn[standard]
+python-multipart
+numpy
+opencv-python-headless
+PyMuPDF
+groq
+python-dotenv
+bleak
