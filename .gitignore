@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+ARCHNOVA-AI/storage/*.db
+ARCHNOVA-AI/storage/*.sqlite
+ARCHNOVA-AI/storage/*.sqlite3

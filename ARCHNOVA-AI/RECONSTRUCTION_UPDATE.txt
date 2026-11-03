@@ -1,0 +1,20 @@
+ARCHNOVA AI - Targeted 3D reconstruction update
+
+Changed:
+- backend/main.py: added an isolated import and routed new uploads to the new reconstruction module.
+- backend/reconstruction_v2.py: new blueprint-specific wall extraction and plan-bound cropping logic.
+
+Unchanged:
+- frontend/index.html
+- frontend/assets/css/style.css
+- frontend/assets/js/app.js
+- Existing UI wording, buttons, navigation, 3D controls, and project workflow.
+- Existing backend reconstruction.py is retained unchanged.
+
+Important:
+- New uploads generate a separate model JSON using their own project ID and source image hash.
+- Repeated uploads of the exact same source image naturally produce the same geometry, but are still stored under separate project IDs.
+- This is an approximate raster-plan reconstruction. It is not a CAD/BIM-grade interpretation; verify dimensions and wall placement against the original drawing.
+- Doors/windows are not automatically guessed by the new extractor where raster evidence is ambiguous, to avoid adding false openings.
+
+Python syntax and application import checks passed in the working environment.

@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHNOVA AI | Building Intelligence</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+<div class="app">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">A</div>
+            <div>
+                <h2>ARCHNOVA</h2>
+                <span>BUILDING INTELLIGENCE</span>
+            </div>
+        </div>
+
+        <div class="nav-label">WORKSPACE</div>
+        <a class="nav active" href="#"><span>◈</span> Overview</a>
+        <a class="nav" href="#projects"><span>▦</span> Projects</a>
+        <a class="nav" href="#viewer"><span>⬡</span> 3D Studio</a>
+        <a class="nav" href="#upload"><span>⇧</span> Blueprint Upload</a>
+
+        <div class="sidebar-bottom">
+            <div class="status"><span class="dot"></span> AI ENGINE READY</div>
+            <div class="profile">
+                <div class="avatar">A</div>
+                <div><strong>Architect Workspace</strong><small>Local Environment</small></div>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <header>
+            <div>
+                <p class="eyebrow">BUILDING INTELLIGENCE PLATFORM</p>
+                <h1>Welcome to <span>ARCHNOVA.</span></h1>
+                <p class="subtitle">Transform architectural blueprints into intelligent 3D spaces.</p>
+            </div>
+            <button class="primary" onclick="openUpload()">＋ New Project</button>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <div class="tag">✦ AI-POWERED RECONSTRUCTION</div>
+                <h2>From blueprint<br>to <span>built reality.</span></h2>
+                <p>Upload a floor plan. Let ARCHNOVA analyze its geometry and begin building your digital space.</p>
+                <button class="primary" onclick="openUpload()">Start a reconstruction ↗</button>
+            </div>
+            <div class="hero-art">
+                <div class="orb orb1"></div>
+                <div class="orb orb2"></div>
+                <div class="wire"></div>
+                <div class="art-label">SPATIAL ENGINE <b>01</b></div>
+                <div class="art-coordinates">3D · AI · SPATIAL DATA</div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="stat"><small>PROJECTS</small><h2 id="projectCount">0</h2><span>Saved buildings</span></div>
+            <div class="stat"><small>BLUEPRINTS</small><h2 id="blueprintCount">0</h2><span>Uploaded plans</span></div>
+            <div class="stat"><small>ENGINE STATUS</small><h2 class="online">ONLINE <i></i></h2><span>Local processing API</span></div>
+        </section>
+        <section id="bluetooth-monitor" class="section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">INDOOR CONNECTIVITY</p>
+            <h2>Bluetooth Device Monitor</h2>
+            <p class="subtitle">Live signal monitoring of registered devices</p>
+        </div>
+        <span class="badge" id="bleConnectionStatus">CONNECTING...</span>
+    </div>
+
+    <div class="ble-summary">
+        <div class="ble-summary-item">
+            <small>REGISTERED DEVICES</small>
+            <h2 id="bleTotalDevices">3</h2>
+        </div>
+        <div class="ble-summary-item">
+            <small>ONLINE DEVICES</small>
+            <h2 id="bleOnlineDevices">0</h2>
+        </div>
+        <div class="ble-summary-item">
+            <small>MONITOR STATUS</small>
+            <h2 id="bleMonitorStatus">CHECKING</h2>
+        </div>
+    </div>
+
+    <div id="bleDeviceList" class="ble-device-list">
+        <div class="empty">
+            <h3>Connecting to Bluetooth monitor...</h3>
+            <p>Waiting for device readings.</p>
+        </div>
+    </div>
+</section>
+
+        <section id="projects" class="section">
+            <div class="section-heading"><div><p class="eyebrow">YOUR WORKSPACE</p><h2>Recent projects</h2></div><button class="ghost" onclick="loadProjects()">↻ Refresh</button></div>
+            <div id="projectGrid" class="project-grid">
+                <div class="empty"><div>▦</div><h3>Your workspace is clear</h3><p>Create a project by uploading your first architectural blueprint.</p><button class="primary" onclick="openUpload()">＋ Create project</button></div>
+            </div>
+        </section>
+
+        <section id="viewer" class="section viewer-section">
+            <div class="section-heading"><div><p class="eyebrow">SPATIAL WORKSPACE</p><h2>3D Studio</h2></div><span class="badge">PREVIEW</span></div>
+            <div class="viewer" id="viewerCanvas"><div class="viewer-empty"><div class="cube">⬡</div><h3>3D workspace</h3><p>Your reconstructed building will appear here.</p></div></div>
+        </section>
+    </main>
+</div>
+
+<div id="uploadModal" class="modal">
+    <div class="modal-card">
+        <button class="close" onclick="closeUpload()">×</button>
+        <p class="eyebrow">NEW SPATIAL PROJECT</p>
+        <h2>Create a building</h2>
+        <p class="subtitle">Upload your architectural blueprint to get started.</p>
+        <form id="projectForm">
+            <label>PROJECT NAME</label>
+            <input id="projectName" name="name" placeholder="e.g. Innovation Center" required>
+            <label>ARCHITECTURAL BLUEPRINT</label>
+            <label class="dropzone" for="blueprintFile">
+                <span class="upload-icon">⇧</span>
+                <strong id="fileLabel">Choose blueprint file</strong>
+                <small>PDF, PNG, JPG, TIFF</small>
+            </label>
+            <input type="file" id="blueprintFile" accept=".pdf,.png,.jpg,.jpeg,.tif,.tiff" required hidden>
+            <label>BUILDING FLOORS</label>
+            <select id="floorCount" class="floor-select">
+                <option value="1">Single Floor</option>
+                <option value="2">Double Floor</option>
+                <option value="3">3 Floors</option>
+                <option value="4">4 Floors</option>
+                <option value="5">5 Floors</option>
+            </select>
+            <label>FLOOR BLUEPRINT OPTION</label>
+            <select id="floorMode" class="floor-select">
+                <option value="separate">Upload separate blueprint for each floor</option>
+                <option value="same">Use the same blueprint for every floor</option>
+            </select>
+            <label id="extraBlueprintLabel" for="extraBlueprints">ADDITIONAL FLOOR BLUEPRINTS</label>
+            <input type="file" id="extraBlueprints" accept=".pdf,.png,.jpg,.jpeg,.tif,.tiff" multiple>
+            <small class="floor-help">For separate plans, select one additional blueprint for each extra floor.</small>
+            <button class="primary full" type="submit" id="submitBtn">Upload & create project ↗</button>
+            <p id="formMessage"></p>
+        </form>
+    </div>
+</div>
+<!-- ARCHNOVA AI Assistant -->
+<div id="aiAssistant">
+
+    <button id="aiAssistantToggle" type="button">
+        ✦ ARCHNOVA AI
+    </button>
+
+    <div id="aiChatPanel" class="ai-chat-panel">
+
+        <div class="ai-chat-header">
+            <div>
+                <strong>✦ ARCHNOVA AI</strong>
+                <small>Powered by Groq · Online</small>
+            </div>
+
+            <button id="aiChatClose" type="button">×</button>
+        </div>
+
+        <div id="aiChatMessages" class="ai-chat-messages">
+            <div class="ai-message ai-bot">
+                Hi! I'm ARCHNOVA AI. Ask me anything about architecture,
+                floor plans, 3D models, or building design.
+            </div>
+        </div>
+
+        <form id="aiChatForm" class="ai-chat-input">
+            <input
+                id="aiChatInput"
+                type="text"
+                placeholder="Ask ARCHNOVA anything..."
+                required
+            >
+            <button type="submit">➤</button>
+        </form>
+
+    </div>
+</div>
+
+<script src="/assets/js/app.js"></script>
+</body>
+</html>
